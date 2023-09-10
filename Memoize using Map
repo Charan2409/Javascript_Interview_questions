@@ -1,0 +1,33 @@
+function myMemoize(func) {
+  const cache = new Map(); //map will have key and values , so we will store our arguments as keys and returned functional value is our "value " for the respective key.
+
+  return function (...args) {
+    const key = JSON.stringify(args); //transforming our arguments to a json format , so that it fits keys and values in JSON format
+    // refer to the Map methods
+
+    if (cache.has(key)) {
+      // this will make sure the function will not trigger , if the key is found in the map.. this makes the code optimized and memoized
+      //will check for the specific key(JSON converted argument)
+      return cache.get(key); //if key found in map , then returns the specific value to the key
+    } else {
+      // if not found , then result will trigger the function again with same arguments via function call
+      const result = func(...args);
+      cache.set(key, result); // value returned from function will be stored in result.
+      console.log(cache);
+      return result; //we get the result from here
+    }
+  };
+}
+
+const twoProduct = function (num1, num2) {
+  return num1 * num2;
+}; //this is the function to be memoized.
+
+const memoizedVal = myMemoize(twoProduct);
+console.time(memoizedVal(5, 4));
+console.log(memoizedVal(5, 4));
+console.timeEnd(memoizedVal(5, 4));
+
+console.time(memoizedVal(5, 4));
+console.log(memoizedVal(5, 4));
+console.timeEnd(memoizedVal(5, 4));
