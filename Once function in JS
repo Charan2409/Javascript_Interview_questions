@@ -1,0 +1,15 @@
+function once(fn) {
+  let called = false; // used to track if the function is called anytime , by default its false .
+  return function (...args) {
+    if (!called) {
+      return fn(...args);
+    }
+    return "Its already called..!";
+  };
+}
+
+const hello = once((a, b) => {
+  console.log(a, b);
+});//wrapping the arrow function with in once ,so it will make sure call the function only once.
+
+hello(2, 4); //function calling 
