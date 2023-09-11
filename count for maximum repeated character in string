@@ -1,0 +1,22 @@
+const duplicateCount = function (str) {
+  let mapped = new Map();
+  for (const char of str) {
+    if (mapped.has(char)) {
+      mapped.set(char, mapped.get(char) + 1); //if already exists in map , then count will increment by 1
+    } else {
+      mapped.set(char, 1);//if char doesn't exists , then it will set the count as 1 for the character.
+    }
+  }
+  console.log(mapped);
+  let maxCount = 0;
+  let maxKey = "";
+  for (const [char, count] of mapped) { //extracting key and value from mapped by using random variables
+    if (count > maxCount) {
+      maxCount = count;
+      maxKey = char;
+    }
+  }
+  return { character: maxKey, count: maxCount };
+};
+
+console.log(duplicateCount("charan"));
