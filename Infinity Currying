@@ -1,0 +1,7 @@
+function addition(a) {
+  return function (b) {
+    if (b) return addition(a + b); //calling the parent function loaded with the current sum of first two params as a second param upon third param
+    return a;
+  };
+}
+console.log(addition(4)(2)(3)());  //last paranthesis is empty , because we will fetch the updated sum via "a", since the updated sum will be sent to "a"
