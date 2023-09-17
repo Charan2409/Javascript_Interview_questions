@@ -53,3 +53,39 @@ document.addEventListener("DOMContentLoaded", function () {
 
 //Throttling: Throttling limits the rate at which a function is called by ensuring that it is executed at a specified interval, no matter how many times the event occurs within that interval. It guarantees that the function will run once every X milliseconds, for example, every 200 milliseconds, regardless of how many times the event (e.g., a click) is triggered within that time frame. Any additional event triggers during the throttling period are ignored.
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<JS CODE > using polyfill:
+const btn = document.querySelector(".button1");
+const click_count = document.querySelector(".clicked_count");
+const trig_count = document.querySelector(".triggered_count");
+
+var count1 = 0;
+var count2 = 0;
+
+btn.addEventListener('click', () => {
+click_count.innerHTML = ++count1;
+debouncedClick();
+})
+const myThrottle = function(cb, interval){
+let timer;
+
+return function(...args){
+if(timer){
+clearTimeout(timer);
+}
+timer = setInterval(()=>{
+cb(...args)
+},interval) 
+}
+};
+
+const debouncedClick = myThrottle(() => {
+trig_count.innerHTML = ++count2;
+console.log("its Throttling")
+},800);
+
+
+
+//Throttling always uses setInterval for displaying content after regular intervals of time , even after multiple clicks 
+
