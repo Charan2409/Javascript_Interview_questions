@@ -1,0 +1,54 @@
+<<HTML CODE>>
+
+  <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    
+    <h1 id="heading">Practicing JavaScript</h1>
+    <p>Practice makes man perfect!</p>
+    <button class="button1">
+Click me 
+</button>
+<p>
+clicked <span  class="clicked_count">0</span> Times
+</p>
+<p>
+Triggered <span class="triggered_count">0</span> Times
+</p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js" integrity="sha512-WFN04846sdKMIP5LKNphMaWzU7YpMyCU245etK3g/2ARYbPK9Ub18eG+ljU96qKRCWh+quCY7yefSmlkQw1ANQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="practice.js"></script>
+
+</body>
+</html>
+
+
+=====================================================================================================================================================================================
+
+  <<JS CODE>> 
+
+  document.addEventListener("DOMContentLoaded", function () {
+  // Your code here
+  const btn = document.querySelector(".button1");
+  const clickBtn = document.querySelector(".clicked_count");
+  const triggerBtn = document.querySelector(".triggered_count");
+
+  var clickedValue = 0;
+  let triggeredValue = 0;
+  btn.addEventListener("click", () => {
+    clickBtn.innerHTML = ++clickedValue;
+    debouncedCount(); //calling debouncing function here in button call to limit the trigger
+  });
+
+  const debouncedCount = _.debounce(() => {
+    // used lodash library , for debounce inbuilt function
+    triggerBtn.innerHTML = ++triggeredValue;
+  }, 800);
+});
+
+
