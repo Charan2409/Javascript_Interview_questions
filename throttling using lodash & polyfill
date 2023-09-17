@@ -65,22 +65,25 @@ var count2 = 0;
 
 btn.addEventListener('click', () => {
 click_count.innerHTML = ++count1;
-debouncedClick();
+throttledClick();
 })
-const myThrottle = function(cb, interval){
-let timer;
 
-return function(...args){
-if(timer){
-clearTimeout(timer);
-}
-timer = setInterval(()=>{
-cb(...args)
-},interval) 
-}
+//polyfill code:
+const myThrottle = function (cb, interval) {
+  let timer; 
+
+  return function (...args) {
+    if (!timer) { // If the timer is not active, schedule the callback execution
+      timer = setTimeout(() => {
+        cb(...args);
+        timer = null; // Reset the timer after the callback is executed
+      }, interval);
+    }
+  };
 };
 
-const debouncedClick = myThrottle(() => {
+
+const throttledClick = myThrottle(() => {
 trig_count.innerHTML = ++count2;
 console.log("its Throttling")
 },800);
