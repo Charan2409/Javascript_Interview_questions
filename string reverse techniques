@@ -1,0 +1,15 @@
+1.reversing everyword and reversing the whole string. 
+
+const str = "kanna is a good boy"
+const newStr = removeBySeparator(str, "")
+function removeBySeparator(string, separator){ // function which will be called to perform reverse of a string. 
+return string.split(separator).reverse().join(separator)
+}
+console.log(newStr)
+
+----------------------------------------------------------------------------------------------------------
+//reverse the each word in a string and return the string with same word positions.
+const str = "I am charan";
+const reversedStr = (str.split(" ")).map((s)=>s.split("").reverse().join("")).join(" ")
+console.log(reversedStr);
+
