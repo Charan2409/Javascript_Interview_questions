@@ -1,0 +1,15 @@
+function stringConversion(obj){
+let result = JSON.stringify(obj); // converted the obj to JSON. using JSON.stringify method.
+
+return result;
+
+}
+
+const value = stringConversion({
+name: "Charan",
+age: 25
+});
+const parsedValue = JSON.parse(value) // converted string to json , using JSON.parse() method
+console.log(value) -> string changed from JSON. 
+console.log(parsedValue) -> object from String
+
