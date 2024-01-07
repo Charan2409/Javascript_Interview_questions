@@ -1,0 +1,138 @@
+//Promise : The Promise object represents the eventual completion (or failure) of an asynchronous operation and its resulting value.
+/* Promise()
+Creates a new Promise object. The constructor is primarily used to wrap functions that do not already support promises. */
+
+//syntax for Creating a promise:
+
+const myPromise = new Promise((resolve, reject)=>{
+resolve("Promise was resolved")
+)
+//calling the promise using .then and .catch for error handling
+myPromise.then((res)=> console.log(res)).catch((err)=> console.log(err)) --> this will give the rejected or resolved promise value. 
+
+================================================================================================================
+Promise methods:
+Promise.all()
+Def:: The Promise.all() static method takes an iterable of promises as input and returns a single Promise. This returned promise fulfills when all of the input's promises fulfill (including when an empty iterable is passed),
+with an array of the fulfillment values. It rejects when any of the input's promises rejects, with this first rejection reason.
+
+//example -1 [all resolve]
+//code:
+const cb = (resolve, reject) =>{
+  //reject("The promise1 is rejected");
+  resolve("this promise1 is resolved")
+}
+const promise1 = new Promise(cb);
+const promise2 = Promise.resolve(2);
+const promise3 = new Promise((resolve) => {
+  resolve("The promise3 is resolved")
+})
+const promise4 = new Promise((resolve) => {
+  resolve("The promise4 is resolved")
+})
+
+Promise.all([promise1,promise2,promise3,promise4]).then((res)=> console.log(res)).catch((err) => console.log(err));
+Result :  ['this promise1 is resolved', 2, 'The promise3 is resolved', 'The promise4 is resolved']
+
+//for any reject among all promises:
+code:
+const cb = (resolve, reject) =>{
+  reject("The promise1 is rejected");
+  //resolve("this promise1 is resolved")
+}
+const promise1 = new Promise(cb);
+const promise2 = Promise.resolve(2);
+const promise3 = new Promise((resolve) => {
+  resolve("The promise3 is resolved")
+})
+const promise4 = new Promise((resolve) => {
+  resolve("The promise4 is resolved")
+})
+const promise5 = new Promise((reject) => {
+  reject(" the promise 5 is rejected..")
+})
+
+Promise.all([promise1,promise2,promise3,promise4]).then((res)=> console.log(res)).catch((err) => console.log(err));
+
+
+//promise1 and promise5 are rejected , but the above code will only return the first rejected from array of promises
+
+==================================================================================================================================================================================
+Promise.allSettled() ::
+DEF:: The Promise.allSettled() static method takes an iterable of promises as input and returns a single Promise.
+This returned promise fulfills when all of the input's promises settle (including when an empty iterable is passed), with an array of objects that describe the outcome of each promise.
+
+example code: 
+const cb = (resolve, reject) =>{
+  reject("The promise1 is rejected");
+  //resolve("this promise1 is resolved")
+}
+const promise1 = new Promise(cb);
+const promise2 = Promise.resolve(2);
+const promise3 = new Promise((resolve) => {
+  resolve("The promise3 is resolved")
+})
+const promise4 = new Promise((resolve) => {
+  resolve("The promise4 is resolved")
+})
+const promise5 = new Promise((reject) => {
+  reject(" the promise 5 is rejected..")
+})
+
+Promise.allSettled([promise1,promise2,promise3,promise4,promise5]).then((res)=> console.log(res)).catch((err) => console.log(err));
+
+
+result for Promise.allSettled : [
+    {
+        "status": "rejected",
+        "reason": "The promise1 is rejected"
+    },
+    {
+        "status": "fulfilled",
+        "value": 2
+    },
+    {
+        "status": "fulfilled",
+        "value": "The promise3 is resolved"
+    },
+    {
+        "status": "fulfilled",
+        "value": "The promise4 is resolved"
+    },
+    {
+        "status": "fulfilled",
+        "value": " the promise 5 is rejected.."
+    }
+]
+
+========================================================================================================================================================================================================
+Promise.any()
+DEF:: The Promise.any() static method takes an iterable of promises as input and returns a single Promise. This returned promise fulfills when any of the input's promises fulfills,
+with this first fulfillment value. It rejects when all of the input's promises reject (including when an empty iterable is passed), with an AggregateError containing an array of rejection reasons.
+
+for example: 
+const cb = (resolve, reject) =>{
+  reject("The promise1 is rejected");
+  //resolve("this promise1 is resolved")
+}
+const promise1 = new Promise(cb);
+const promise2 = new Promise((resolve) => {
+  resolve("The promise2 is resolved")
+})
+const promise3 = new Promise((resolve) => {
+  resolve("The promise3 is resolved")
+})
+const promise4 = new Promise((resolve) => {
+  resolve("The promise4 is resolved")
+})
+const promise5 = new Promise((reject) => {
+  reject(" the promise 5 is rejected..")
+})
+
+Promise.any([promise1,promise2,promise3,promise4,promise5]).then((res)=> console.log(res)).catch((err) => console.log(err));
+
+
+Result : 
+The promise2 is resolved --> Its the first promise fullfilled from Array.
+
+
