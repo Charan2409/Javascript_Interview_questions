@@ -1,0 +1,85 @@
+Event Bubbling : 
+->Event bubbling is the default behavior in the DOM when an event occurs on a specific target element, and then the event bubbles up through its ancestors in the DOM hierarchy.
+->Starting from the target element, the event travels up through the parent elements, triggering corresponding event handlers along the way.
+->This is the opposite order of the element hierarchy: from child to parent.
+
+Code:
+HTML:
+ <div id="grand">
+      <div id="parent">
+        <button id="child">click me </button>
+      </div>
+    </div>
+JS:
+const grand = document.getElementById("grand").addEventListener("click", () => {console.log("grand clicked")})
+const parent = document.getElementById("parent").addEventListener("click",() => {console.log("parent clicked")} );
+const child = document.getElementById("child").addEventListener("click",() => {console.log("child clicked")} );
+
+Output: when button is clicked:
+child clicked -> 1st
+parent clicked -> 2nd
+grand clicked -> 3rd
+-------------------------------------------------------------------------------------------------------
+Event Capturing: 
+->Event capturing is the opposite of event bubbling. It occurs during the first phase of event propagation, where the event is captured from the root of the DOM hierarchy down to the target element.
+->The capturing phase allows you to intercept an event before it reaches the target element.
+->Event capturing is less commonly used than event bubbling.
+Code:
+HTML:
+<div id="parent">
+  <button id="child">Click me</button>
+</div>
+JS:
+  document.getElementById('parent').addEventListener('click', () => {
+    console.log('Parent Clicked');
+  }, true); // Third parameter specifies capturing
+
+  document.getElementById('child').addEventListener('click', () => {
+    console.log('Child Clicked');
+OutPut:
+Parent Clicked -> 1st
+Child Clicked -> 2nd
+
+------------------------------------------------------------------------------------------------------------------
+Event Propagation: 
+Event propagation encompasses both event capturing and event bubbling.
+It refers to the entire process by which an event travels through the DOM hierarchy, either from the root to the target (capturing phase), or from the target to the root (bubbling phase).
+
+Code:
+ html:
+<div id="parent">
+  <button id="child">Click me</button>
+</div>
+JS:
+  document.getElementById('parent').addEventListener('click', () => {
+    console.log('Parent Clicked - Bubbling');
+  });
+
+  document.getElementById('child').addEventListener('click', () => {
+    console.log('Child Clicked - Capturing');
+  }, true); // Third parameter specifies capturing
+
+---------------------------------------------------------------------------------------------------------------------
+stopPropagation:
+stopPropagation is a method that belongs to the Event object in JavaScript.
+It is used to stop the further propagation of an event through the DOM hierarchy. In other words, it prevents the event from reaching the parent or ancestor elements during the capturing or bubbling phase.
+This method does not prevent the default action associated with the event; it only stops the event from reaching other elements.
+Code:
+HTML:
+<div id="parent">
+  <button id="child">Click me</button>
+</div>
+
+JS:
+document.getElementById('child').addEventListener('click', (event) => {
+  console.log('Child Clicked');
+  event.stopPropagation();
+});
+
+
+
+-------------------------------------------------------------------------------------------------------------------------------
+The stopImmediatePropagation() method of the Event interface prevents other listeners of the same event from being called.
+
+If several listeners are attached to the same element for the same event type, they are called in the order in which they were added.
+If stopImmediatePropagation() is invoked during one such call, no remaining listeners will be called, either on that element or any other element.
