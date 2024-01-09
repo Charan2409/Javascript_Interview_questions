@@ -5,3 +5,17 @@ function addition(a) {
   };
 }
 console.log(addition(4)(2)(3)());  //last paranthesis is empty , because we will fetch the updated sum via "a", since the updated sum will be sent to "a"
+
+
+===============================================================================
+if parameters are a group of numbers then :
+function add(...args1){
+   let sum = args1.reduce((s, a) => s += a, 0)
+   return function resultFn(...args2){
+       if(arguments.length) {
+           sum += args2.reduce((s, a) => s += a, 0);
+           return resultFn;
+       }
+       return sum;
+   }
+}
