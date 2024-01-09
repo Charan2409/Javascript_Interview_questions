@@ -83,3 +83,23 @@ The stopImmediatePropagation() method of the Event interface prevents other list
 
 If several listeners are attached to the same element for the same event type, they are called in the order in which they were added.
 If stopImmediatePropagation() is invoked during one such call, no remaining listeners will be called, either on that element or any other element.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+Event Delegation : 
+ event delegation is a technique in JavaScript where you attach a single event listener to a common ancestor of multiple elements, instead of attaching individual event listeners to each element. 
+The idea is to leverage the event's bubbling phase, where events on nested elements also trigger events on their ancestors.
+Code:
+HTML:
+  <ul id="parentList">
+      <li>Item 1</li>
+      <li>Item 2</li>
+      <li>Item 3</li>
+    </ul>
+
+JS:
+const parent = document.getElementById("parentList").addEventListener('click', (event)=>{
+  if(event.target.tagName === "LI"){
+    console.log("List was clicked ")
+  }
+})
+
