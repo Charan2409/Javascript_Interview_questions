@@ -1,0 +1,18 @@
+Call:
+Call is a function that helps you change the context of the invoking function. In layperson's terms, it helps you replace the value of this inside a function with whatever value you want.
+
+Example code : 
+let person  = {
+    name: "sai",
+    hello: function(text){
+        console.log(text +" " + this.name );
+    }
+}
+//object 2 to modify the context of the function in person object.
+let person2 = {
+    name: "charan"
+}
+
+person.hello.call(person2,"hi");
+
+
