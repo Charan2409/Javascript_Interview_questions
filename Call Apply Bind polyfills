@@ -1,54 +1,72 @@
+call polyfill : 
 let car1 = {
   color: 'Red',
   company: 'Ferrari',
 };
 
-let car2 = {
-  color: 'Blue',
-  company: 'BMW',
+function purchaseCar(currency , price ){
+    console.log(`I purchased ${this.color} ${this.company} for ${currency}${price}`);
+}
+
+Function.prototype.myCall = function (context = {}, ...args){
+    if(typeof this !== 'function'){
+        throw new Error(`${this} - its not callable`)
+    }
+    
+    context.fn = this;
+    context.fn(...args)
+}
+
+purchaseCar.myCall(car1, "Rs.", 100000 );
+
+--------------------------------------------------------------------------------------------------------------
+Apply polyfill : 
+
+let car1 = {
+  color: 'Red',
+  company: 'Ferrari',
 };
 
-let car3 = {
-  color: 'White',
-  company: 'Mercedes',
+function purchaseCar(currency , price ){
+    console.log(`I purchased ${this.color} ${this.company} for ${currency}${price}`);
+}
+
+Function.prototype.myApply = function (context = {}, args = []){
+    if(typeof this !== 'function'){
+        throw new Error(`${this} - its not callable`)
+    }
+    if(!Array.isArray(args)){
+        throw new Error("CreateListfromArray like called on non-object");
+    }
+    
+    context.fn = this;
+    context.fn(...args)
+}
+
+purchaseCar.myApply(car1, ["Rs.", 100000]);
+
+======================================================================================================================
+Bind Polyfill : 
+let car1 = {
+  color: 'Red',
+  company: 'Ferrari',
 };
 
-function purchaseCar(currency, price) {
-  console.log(
-    `I have purchased ${this.color} - ${this.company} car for ${currency}${price} `
-  );
-};
+function purchaseCar(currency , price ){
+    console.log(`I purchased ${this.color} ${this.company} for ${currency}${price}`);
+}
 
-Function.prototype.myBind = function (currentContext = {}, ...arg) {
-  if (typeof this !== 'function') {
-    throw new Error(this + "cannot be bound as it's not callable");
-  }
-  currentContext.fn = this;
-  return function () {
-    return currentContext.fn(...arg);
-  };
-};
+Function.prototype.myBind = function (context = {}, ...args){
+    if(typeof this !== 'function'){
+        throw new Error(`${this} - its not callable`)
+    }
+   
+    
+    context.fn = this;
+    return function (...args){
+        return context.fn(...args)
+    }
+}
 
-Function.prototype.myApply = function (currentContext = {}, arg = []) {
-  if (typeof this !== 'function') {
-    throw new Error(this + "it's not callable");
-  }
-  if (!Array.isArray(arg)) {
-    throw new TypeError('CreateListFromArrayLike called on non-object')
-  }
-  currentContext.fn = this;
-  currentContext.fn(...arg);
-};
-
-Function.prototype.myCall = function (currentContext = {}, ...arg) {
-  if (typeof this !== 'function') {
-    throw new Error(this + "it's not callable");
-  }
-  currentContext.fn = this;
-  currentContext.fn(...arg);
-};
-
-const initPurchaseBmw = purchaseCar.myBind(car1, '₹', '1,00,00,000');
-initPurchaseBmw();
-purchaseCar.myApply(car2, ['₹', '50,00,000']);
-purchaseCar.myCall(car3, '₹', '60,00,000');
+const newFunc = purchaseCar.myBind(car1);
+newFunc("Rs.",100000)
